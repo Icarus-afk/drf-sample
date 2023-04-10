@@ -4,15 +4,14 @@ from users.models import User
 class UserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', 'username', 'password']
-    
-    def create(self, validate_data):
-        password = validate_data.pop('password', None)
-        instance = self.Meta.model(**validate_data)
-        if password is not None:
-            instance.set_password(password)
-        instance.save()
-        return instance
+        fields = ('id','username','email', 'password','first_name', 'last_name')
+        extra_kwargs = {
+            'password':{'write_only': True},
+        }
+
+    def create(self, validated_data):
+        user = User.objects.create_user(validated_data['username'],     password = validated_data['password']  ,first_name=validated_data['first_name'],  last_name=validated_data['last_name'])
+        return user
     
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
