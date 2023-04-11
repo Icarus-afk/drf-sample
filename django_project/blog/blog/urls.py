@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from categories.api.router import router_categories
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include('users.api.router')),
+    path('api/', include(router_categories.urls)),
 
 ]
