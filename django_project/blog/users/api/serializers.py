@@ -29,10 +29,8 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
-        # Add custom claims t the token
         token['id'] = user.id
         token['email'] = user.email
-        # Add any additional claims you want to include in the token
         return token
 
     def validate(self, attrs):

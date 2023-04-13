@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework import generics, permissions
-
+from blog.utils import CustomTokenObtainPairSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import UserRegisterSerializer, UserSerializer, UserUpdateSerializer
@@ -28,7 +28,7 @@ class UserView(APIView):
         return Response(serializer.data)
     
     def put(self, request):
-        user = User.objects.get(id = request.users.id)
+        user = User.objects.get(id = request.user.id)
         serializer = UserUpdateSerializer(user, request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
@@ -49,7 +49,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         response_data = {
             'access_token': data['access'],
             'refresh_token': data['refresh'],
-            'user_id': user_id,
+            'id': user_id,
             'email': email,
             # add any other additional data you want to include in the response
         }

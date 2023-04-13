@@ -5,7 +5,9 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     
     username = models.CharField(max_length= 255, unique=True)
-    email = models.EmailField()
+    email = models.EmailField()    
+    jwt_access_token = models.TextField(blank=True, null=True)
+    jwt_refresh_token = models.TextField(blank=True, null=True)
     
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []
